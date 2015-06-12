@@ -1,61 +1,58 @@
-var stockholm = new google.maps.LatLng(59.32522, 18.07002);
-var parliament = new google.maps.LatLng(59.327383, 18.06747);
 var marker;
 var map;
 
 function initialize() {
+    var bounds = new google.maps.LatLngBounds();
     var mapOptions = {
-        zoom: 13,
-        center: stockholm
+        mapTypeId: 'roadmap'
     };
 
-    map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
+    // Display a map on the page
+    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    map.setTilt(45);
 
-    marker = new google.maps.Marker({
-        map:map,
-        draggable:true,
-        animation: google.maps.Animation.DROP,
-        position: parliament
-    });
+    // Info Window Content
+    var infoWindowContent = [
+        ['<div id="content"><div id="siteNotice"></div>' +
+        '<h1 id="firstHeading" class="firstHeading">London Eye</h1>' +
+        '<div id="bodyContent"><p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p></div>' +        '</div>'],
+        ['<div id="content"><div id="siteNotice"></div>' +
+        '<h1 id="firstHeading" class="firstHeading">Westminster</h1>' +
+        '<div id="bodyContent"><p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p></div>' +        '</div>']
+    ];
 
-    var contentString = '<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
-        '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-        '<div id="bodyContent">'+
-        '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-        'sandstone rock formation in the southern part of the '+
-        'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
-        'south west of the nearest large town, Alice Springs; 450&#160;km '+
-        '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
-        'features of the Uluru - Kata Tjuta National Park. Uluru is '+
-        'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-        'Aboriginal people of the area. It has many springs, waterholes, '+
-        'rock caves and ancient paintings. Uluru is listed as a World '+
-        'Heritage Site.</p>'+
-        '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-        'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-        '(last visited June 22, 2009).</p>'+
-        '</div>'+
-        '</div>';
+    // Display multiple markers on a map
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
 
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
+    // Loop through our array of markers & place each one on the map
+    for( i = 0; i < markers.length; i++ ) {
+        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            title: markers[i][0]
+        });
 
-    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map,marker);
-    });
-}
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.open(map, marker);
+            }
+        })(marker, i));
 
-function toggleBounce() {
-
-    if (marker.getAnimation() != null) {
-        marker.setAnimation(null);
-    } else {
-        marker.setAnimation(google.maps.Animation.BOUNCE);
+        // Automatically center the map fitting all markers on the screen
+        map.fitBounds(bounds);
     }
+
+    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+        this.setZoom(14);
+        google.maps.event.removeListener(boundsListener);
+    });
+
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

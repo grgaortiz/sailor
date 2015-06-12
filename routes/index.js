@@ -16,8 +16,14 @@ var Person = require("../models/model.js");
 
 exports.index = function (req, res) {
 
+    // Multiple Markers
+    var markers = [
+        ['London Eye, London', 51.503454,-0.119562],
+        ['Palace of Westminster, London', 51.499633,-0.124755]
+    ];
+
     res.render('map',
-        { title : 'Sailor' }
+        { title : 'Sailor', markers: markers }
     );
 
 };
