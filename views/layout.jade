@@ -4,16 +4,11 @@ html
         title #{title}
         meta(http-equiv='ContentType', content='text/html', charset='UTF-8')
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet', href='/css/style.css')
         script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAdqJHt97bjOSuB2fYH13NjtiW_dDXmyBk')
         script.
             var markers = !{JSON.stringify(markers)};
+            var infoWindowContent = !{JSON.stringify(infoWindowContent)};
         script(type='text/javascript', src='/js/maps.js')
-        style.
-            html,
-            body,
-            #map-canvas {
-                height: 300px;
-                width:600px;
-            }
     body#page-body
         block content

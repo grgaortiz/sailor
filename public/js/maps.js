@@ -11,16 +11,6 @@ function initialize() {
     map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
     map.setTilt(45);
 
-    // Info Window Content
-    var infoWindowContent = [
-        ['<div id="content"><div id="siteNotice"></div>' +
-        '<h1 id="firstHeading" class="firstHeading">London Eye</h1>' +
-        '<div id="bodyContent"><p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p></div>' +        '</div>'],
-        ['<div id="content"><div id="siteNotice"></div>' +
-        '<h1 id="firstHeading" class="firstHeading">Westminster</h1>' +
-        '<div id="bodyContent"><p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p></div>' +        '</div>']
-    ];
-
     // Display multiple markers on a map
     var infoWindow = new google.maps.InfoWindow(), marker, i;
 
@@ -28,11 +18,19 @@ function initialize() {
     for( i = 0; i < markers.length; i++ ) {
         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
         bounds.extend(position);
+
+        if(markers[i][3] === '1') {
+            var iconURI = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+        } else {
+            var iconURI = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+        }
+
         marker = new google.maps.Marker({
             position: position,
             map: map,
             animation: google.maps.Animation.DROP,
-            title: markers[i][0]
+            title: markers[i][0],
+            icon: iconURI
         });
 
         // Allow each marker to have an info window
@@ -49,7 +47,7 @@ function initialize() {
 
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
     var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-        this.setZoom(4);
+        this.setZoom(7);
         google.maps.event.removeListener(boundsListener);
     });
 

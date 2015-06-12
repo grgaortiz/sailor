@@ -22,8 +22,10 @@ exports.index = function (req, res) {
 
     // Params
     var markers = [];
+    // Info Window Content
+    var infoWindowContent = [];
     var skip = 0;
-    fs.readFile('data/test_hospitals.csv', 'utf8', function (error, data) {
+    fs.readFile('data/hospitals.csv', 'utf8', function (error, data) {
         csv.parse(data, {delimiter: ','}, function (err, data) {
             for (var key in data) {
                 if (skip > 0) {
@@ -37,13 +39,19 @@ exports.index = function (req, res) {
                         var url = row[5];
                         var lat = row[6];
                         var long = row[7];
-                        markers.push(['' + name + '', lat, long]);
+                        var client = row[14];
+                        url = url.replace('//', 'http://');
+                        markers.push(['' + name + '', lat, long, client]);
+                        infoWindowContent.push(['<div id="content"><div id="siteNotice"></div>' +
+                        '<h1 id="firstHeading" class="firstHeading">' + name + '</h1>' +
+                        '<div id="bodyContent"><p><b>Address:</b> ' + name + '</br><b>Phone:</b> ' + phone + '</br><b>Beds:</b> ' + beds + '</br><b>System:</b> ' + system + '</br><b>Website:</b> ' + url + '</p></div>' +
+                        '</div>']);
                     }
                 }
                 skip++;
-                if(skip === 3) {
+                if (skip === 6330) {
                     res.render('map',
-                        {title: 'Sailor', markers: markers}
+                        {title: 'Sailor', markers: markers, infoWindowContent: infoWindowContent}
                     );
                 }
             }
