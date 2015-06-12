@@ -9,6 +9,8 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var request = require('request');
+var stylus = require('stylus');
+var nib = require('nib');
 
 // the ExpressJS App
 var app = express();
@@ -17,6 +19,10 @@ var app = express();
 
 // server port number
 app.set('port', process.env.PORT || 5000);
+
+// set views
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

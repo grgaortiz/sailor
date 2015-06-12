@@ -16,14 +16,8 @@ var Person = require("../models/model.js");
 
 exports.index = function (req, res) {
 
-    console.log("main route requested");
-
-    var data = {
-        status: 'OK',
-        message: 'node RESTful API @grgortiz'
-    };
-
-    // respond back with the data
-    res.json(data);
+    res.render('map',
+        { title : 'Sailor' }
+    );
 
 };
