@@ -44,7 +44,7 @@ exports.index = function (req, res) {
                         markers.push(['' + name + '', lat, long, client]);
                         infoWindowContent.push(['<div id="content"><div id="siteNotice"></div>' +
                         '<h1 id="firstHeading" class="firstHeading">' + name + '</h1>' +
-                        '<div id="bodyContent"><p><b>Address:</b> ' + name + '</br><b>Phone:</b> ' + phone + '</br><b>Beds:</b> ' + beds + '</br><b>System:</b> ' + system + '</br><b>Website:</b> ' + url + '</p></div>' +
+                        '<div id="bodyContent"><p><b>Address:</b> ' + name + '</br><b>Phone:</b> ' + phone + '</br><b>Beds:</b> ' + beds + '</br><b>System:</b> ' + system + '</br><b>Website:</b> ' + url + '</br><b>DataRiver Products:</b></br><b>Leads:</b></p></div>' +
                         '</div>']);
                     }
                 }
