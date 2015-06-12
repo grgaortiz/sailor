@@ -1,0 +1,17 @@
+{
+  "name": "sailor",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "^1.2.0",
+    "body-parser": "^1.10.1",
+    "express": "^4.10.7",
+    "method-override": "^2.3.1",
+    "moment": "^2.9.0",
+    "mongoose": "^3.8.21",
+    "request": "^2.51.0"
+  },
+  "engines": {
+    "node": "0.12.x",
+    "npm": "2.9.x"
+  }
+}
