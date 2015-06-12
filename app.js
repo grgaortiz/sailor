@@ -15,13 +15,22 @@ var nib = require('nib');
 // the ExpressJS App
 var app = express();
 
-// configuration of expressjs settings for the web server.
+/* Stylus compile */
+function compile(str, path) {
+    return stylus(str)
+        .set('filename', path)
+        .use(nib())
+}
 
 // server port number
 app.set('port', process.env.PORT || 5000);
-
-// set views
-app.set('views', __dirname + '/views')
+app.use(express.static(__dirname + '/public'));
+app.use(stylus.middleware(
+    { src: __dirname + '/public'
+        , compile: compile
+    }
+));
+app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
